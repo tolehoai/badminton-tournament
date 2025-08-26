@@ -23,7 +23,7 @@ Thay thế `yourusername` bằng username GitHub của bạn:
 git remote remove origin
 
 # Thêm remote mới với username thực
-git remote add origin https://github.com/YOUR_USERNAME/badminton-tournament.git
+git remote add origin https://github.com/tolehoai/badminton-tournament.git
 
 # Kiểm tra remote
 git remote -v
@@ -149,7 +149,7 @@ Sau khi hoàn thành, bạn sẽ có:
 
 ## 📝 Lưu ý
 
-- Đảm bảo thay `YOUR_USERNAME` bằng username GitHub thực của bạn
+- ✅ Remote URL đã được cập nhật với username: `tolehoai`
 - Nếu có lỗi khi push, có thể cần authenticate với GitHub
 - Có thể sử dụng GitHub CLI hoặc GitHub Desktop để dễ dàng hơn
 - Nên review từng PR trước khi merge để đảm bảo chất lượng code
