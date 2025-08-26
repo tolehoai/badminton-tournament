@@ -38,7 +38,6 @@ function App() {
     {}
   );
   const [activeTabs, setActiveTabs] = useState({ A: "ranking", B: "ranking", C: "ranking", D: "ranking" });
-  const [lang, setLang] = useLocalStorageState("badminton_tourney_lang", "vi");
   const [showSettings, setShowSettings] = useState(false);
   
   // New states for player management
@@ -51,7 +50,7 @@ function App() {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [showPlayerProfile, setShowPlayerProfile] = useState(false);
 
-  const t = (key) => (TEXT[lang] && TEXT[lang][key]) || key;
+  const t = (key) => TEXT[key] || key;
 
   // Force reset to initial data
   const forceResetToInitialData = () => {
@@ -63,12 +62,12 @@ function App() {
       D: genFixtures(INITIAL_GROUP_DATA.D),
     });
     setBkScores({});
-    alert(lang === "vi" ? "Đã reset về dữ liệu ban đầu" : "Reset to initial data");
+    alert("Reset to initial data");
   };
   
   const resetKnockoutStage = () => {
     setBkScores({});
-    alert("Đã reset knockout stage");
+    alert("Reset knockout stage");
   };
 
   // compute helpers
@@ -208,12 +207,12 @@ function App() {
       p2: D1
     },
     final: {
-      p1: semiWinner1 || (lang === "vi" ? "Thắng SF1" : "Winner SF1"),
-      p2: semiWinner2 || (lang === "vi" ? "Thắng SF2" : "Winner SF2"),
+      p1: semiWinner1 || "Winner SF1",
+      p2: semiWinner2 || "Winner SF2",
     },
     third: {
-      p1: semiLoser1 || (lang === "vi" ? "Thua SF1" : "Loser SF1"),
-      p2: semiLoser2 || (lang === "vi" ? "Thua SF2" : "Loser SF2"),
+      p1: semiLoser1 || "Loser SF1",
+      p2: semiLoser2 || "Loser SF2",
     },
   };
   
@@ -276,13 +275,13 @@ function App() {
       if (matchTotal > longestMatch.total)
         longestMatch = {
           total: matchTotal,
-          text: `${m.p1} vs ${m.p2} <small>(${matchTotal} điểm)</small>`,
+          text: `${m.p1} vs ${m.p2} <small>(${matchTotal} points)</small>`,
         };
       if (res.winner && matchDiff > dominantWin.diff) {
         const winnerName = res.winner === 1 ? m.p1 : m.p2;
         dominantWin = {
           diff: matchDiff,
-          text: `${winnerName} <small>(thắng +${matchDiff} điểm)</small>`,
+          text: `${winnerName} <small>(won by +${matchDiff} points)</small>`,
         };
       }
     });
@@ -290,7 +289,7 @@ function App() {
     return {
       totalMatches,
       totalPoints,
-      kingOfPointsHtml: ko ? `${ko[0]} <small>(${ko[1]} điểm)</small>` : "---",
+      kingOfPointsHtml: ko ? `${ko[0]} <small>(${ko[1]} points)</small>` : "---",
       longestMatchHtml: longestMatch.text,
       dominantWinHtml: dominantWin.text,
     };
@@ -337,7 +336,7 @@ function App() {
       newFixtures[groupKey] = shuffled;
     });
     setFixtures(newFixtures);
-    alert(lang === "vi" ? "Đã xáo trộn lịch đấu" : "Fixtures shuffled");
+    alert("Fixtures shuffled");
   };
 
   const generateRandomGroupScores = () => {
@@ -355,7 +354,7 @@ function App() {
       });
     });
     setFixtures(newFixtures);
-    alert(lang === "vi" ? "Đã điền điểm ngẫu nhiên vòng bảng" : "Random group scores generated");
+    alert("Random group scores generated");
   };
 
   const generateRandomKnockoutScores = () => {
@@ -373,21 +372,21 @@ function App() {
     });
     
     setBkScores(newBkScores);
-    alert(lang === "vi" ? "Đã điền điểm ngẫu nhiên knockout" : "Random knockout scores generated");
+    alert("Random knockout scores generated");
   };
 
   const clearStorage = () => {
     localStorage.removeItem("badminton_tourney_v8_group_data");
     localStorage.removeItem("badminton_tourney_v8_fixtures");
     localStorage.removeItem("badminton_tourney_v8_bk");
-    localStorage.removeItem("badminton_tourney_lang");
+
     // Clear all localStorage items that might contain old data
     Object.keys(localStorage).forEach(key => {
       if (key.includes('badminton_tourney')) {
         localStorage.removeItem(key);
       }
     });
-    alert(lang === "vi" ? "Đã xoá LocalStorage" : "LocalStorage cleared");
+    alert("LocalStorage cleared");
     setGroupData(INITIAL_GROUP_DATA);
     setFixtures({
       A: genFixtures(INITIAL_GROUP_DATA.A),
@@ -409,12 +408,12 @@ function App() {
     });
     setBkScores({});
     setActiveTabs({ A: "ranking", B: "ranking", C: "ranking", D: "ranking" });
-    alert(lang === "vi" ? "Đã reset về dữ liệu ban đầu" : "Reset to initial data");
+    alert("Reset to initial data");
   };
 
   const addPlayer = () => {
     if (!newPlayerName.trim()) {
-      alert(lang === "vi" ? "Vui lòng nhập tên VĐV" : "Please enter player name");
+      alert("Please enter player name");
       return;
     }
     
@@ -435,12 +434,12 @@ function App() {
     setNewPlayerName("");
     setNewPlayerGroup("A");
     setShowAddPlayer(false);
-    alert(lang === "vi" ? "Đã thêm VĐV" : "Player added");
+    alert("Player added");
   };
 
   const movePlayer = () => {
     if (!movePlayerName.trim()) {
-      alert(lang === "vi" ? "Vui lòng nhập tên VĐV" : "Please enter player name");
+      alert("Please enter player name");
       return;
     }
     
@@ -454,12 +453,12 @@ function App() {
     
     const currentGroup = getPlayerGroup(movePlayerName.trim());
     if (!currentGroup) {
-      alert(lang === "vi" ? "Không tìm thấy VĐV" : "Player not found");
+      alert("Player not found");
       return;
     }
     
     if (currentGroup === movePlayerTargetGroup) {
-      alert(lang === "vi" ? "VĐV đã ở trong bảng này" : "Player is already in this group");
+      alert("Player is already in this group");
       return;
     }
     
@@ -479,11 +478,11 @@ function App() {
     setMovePlayerName("");
     setMovePlayerTargetGroup("A");
     setShowMovePlayer(false);
-    alert(lang === "vi" ? "Đã di chuyển VĐV" : "Player moved");
+    alert("Player moved");
   };
 
   const deletePlayer = (groupKey, playerName) => {
-    if (!confirm(lang === "vi" ? `Xóa VĐV ${playerName}?` : `Delete player ${playerName}?`)) {
+    if (!confirm(`Delete player ${playerName}?`)) {
       return;
     }
     
@@ -496,7 +495,7 @@ function App() {
     newFixtures[groupKey] = genFixtures(newGroupData[groupKey]);
     setFixtures(newFixtures);
     
-    alert(lang === "vi" ? "Đã xóa VĐV" : "Player deleted");
+    alert("Player deleted");
   };
 
   const handlePlayerClick = (playerName) => {
@@ -562,20 +561,6 @@ function App() {
         />
         <h1>{t("app_title")}</h1>
         <p>{t("rules_title")}</p>
-        <div className="language-switch">
-          <button
-            className={`lang-btn ${lang === "vi" ? "active" : ""}`}
-            onClick={() => setLang("vi")}
-          >
-            🇻🇳
-          </button>
-          <button
-            className={`lang-btn ${lang === "en" ? "active" : ""}`}
-            onClick={() => setLang("en")}
-          >
-            🇺🇸
-          </button>
-        </div>
       </div>
 
       <div className="card">
@@ -642,3 +627,4 @@ function App() {
 }
 
 export default App;
+// Remove multiple language support, use English only
