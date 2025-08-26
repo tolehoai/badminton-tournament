@@ -1,0 +1,14 @@
+/* Keep minimal resets; App.css holds the main styles */
+:root {
+  color-scheme: light dark;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
