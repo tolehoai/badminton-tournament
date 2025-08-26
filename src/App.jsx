@@ -642,3 +642,4 @@ function App() {
 }
 
 export default App;
+// refactor: improve component structure
