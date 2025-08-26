@@ -642,3 +642,5 @@ function App() {
 }
 
 export default App;
+// feat: add player profile modal
+// feat: add player profile modal
