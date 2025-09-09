@@ -1,5 +1,5 @@
 import React from 'react';
-import { handleImageError, computeDoublesPairs, matchResult } from '../utils/helpers.js';
+import { handleImageError } from '../utils/helpers.js';
 
 const Group = ({ 
   groupKey, 
@@ -8,10 +8,48 @@ const Group = ({
   activeTabs, 
   setActiveTabs, 
   handleFixtureScore, 
-  deletePlayer,
+  deletePlayer, // eslint-disable-line no-unused-vars
   onPlayerClick,
-  t 
+  playerAvatars,
+  t, // eslint-disable-line no-unused-vars  
+  addPlayerToGroup,
+  changePlayerGroup,
+  removePlayerFromTournament,
+  allGroups,
+  editPlayerName,
+  showAddPlayer = true,
+  shuffleGroupFixtures
 }) => {
+
+
+  const handleAddPlayer = () => {
+    const playerName = prompt(`Enter new player name for Group ${groupKey}:`);
+    if (playerName && playerName.trim()) {
+      addPlayerToGroup(groupKey, playerName.trim());
+    }
+  };
+
+  const handleChangeGroup = (playerName) => {
+    const targetGroups = allGroups.filter(g => g !== groupKey);
+    if (targetGroups.length === 0) return;
+    
+    const targetGroup = prompt(`Move ${playerName} to which group? (${targetGroups.join(', ')})`);
+    if (targetGroup && targetGroups.includes(targetGroup.toUpperCase())) {
+      changePlayerGroup(playerName, groupKey, targetGroup.toUpperCase());
+    }
+  };
+
+  const handleEditPlayer = (playerName) => {
+    const newName = prompt(`Edit player name:`, playerName);
+    if (newName && newName.trim() && newName.trim() !== playerName) {
+      if (editPlayerName) {
+        editPlayerName(playerName, newName.trim(), groupKey);
+      }
+    }
+  };
+
+
+
   const renderGroup = (groupKey) => {
     const players = groupData[groupKey] || [];
     const groupFixtures = fixtures[groupKey] || [];
@@ -117,34 +155,36 @@ const Group = ({
 
     return (
       <section className="group" key={groupKey} data-group={groupKey}>
+        {/* Group header with shuffle button */}
+        <div className="group-header">
+          <h3>Group {groupKey}</h3>
+          {shuffleGroupFixtures && fixtures[groupKey] && fixtures[groupKey].length > 0 && (
+            <button 
+              className="shuffle-btn"
+              onClick={() => shuffleGroupFixtures(groupKey)}
+              title={`Shuffle Group ${groupKey} match order`}
+            >
+              🔀 Shuffle Matches
+            </button>
+          )}
+        </div>
         <div className="tab-nav">
           <button
             className={`tab-btn ${activeTabs[groupKey] === "ranking" ? "active" : ""}`}
             onClick={() => setActiveTabs({ ...activeTabs, [groupKey]: "ranking" })}
           >
-            {t("ranking")}
-          </button>
-          <button
-            className={`tab-btn ${activeTabs[groupKey] === "players" ? "active" : ""}`}
-            onClick={() => setActiveTabs({ ...activeTabs, [groupKey]: "players" })}
-          >
-            {t("players")}
+            Players & Standings
           </button>
           <button
             className={`tab-btn ${activeTabs[groupKey] === "fixtures" ? "active" : ""}`}
             onClick={() => setActiveTabs({ ...activeTabs, [groupKey]: "fixtures" })}
           >
-            {t("fixtures")}
+            Matches
           </button>
-          <button
-            className={`tab-btn ${activeTabs[groupKey] === "doubles" ? "active" : ""}`}
-            onClick={() => setActiveTabs({ ...activeTabs, [groupKey]: "doubles" })}
-          >
-            {t("doubles")}
-          </button>
+
         </div>
 
-        {/* Ranking tab panel */}
+        {/* Players & Standings combined tab panel */}
         <div
           className={`tab-panel ${activeTabs[groupKey] === "ranking" ? "active" : ""}`}
           id={`ranking-panel-${groupKey}`}
@@ -153,67 +193,86 @@ const Group = ({
             {stats.map((player, index) => {
               // Find the actual player data to get avatar
               const actualPlayer = players.find(p => p.name === player.name);
+              const customAvatar = playerAvatars[player.name];
               return (
                 <div 
                   key={player.name} 
-                  className="ranking-card"
+                  className="ranking-card player-management-card"
                   onClick={() => onPlayerClick && onPlayerClick(player.name)}
                   style={{ cursor: onPlayerClick ? 'pointer' : 'default' }}
                 >
-                  <div className="rank">{index + 1}</div>
+                  <div className={`rank ${
+                    index === 0 ? 'first' : 
+                    index === 1 ? 'second' : 
+                    index === 2 ? 'third' : ''
+                  }`}>{index + 1}</div>
                   <img
-                    src={actualPlayer?.avatar || `https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=${encodeURIComponent(player.name)}`}
+                    src={customAvatar || actualPlayer?.avatar || `https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=${encodeURIComponent(player.name)}`}
                     alt={player.name}
                     onError={(e) => handleImageError(e, player.name)}
+                    style={{ objectFit: 'cover', display: 'block' }}
                   />
                   <div className="player-info">
                     <div className="name">{player.name}</div>
                     <div className="stats">
+                      <span className="matches">{player.matches}M</span>
                       <span className="wins">{player.wins}W</span>
                       <span className="losses">{player.losses}L</span>
                       <span className="streak">
-                        {player.streak > 0 ? `🔥${player.streak}` : ""}
+                        {player.streak > 0 ? `🔥${player.streak}` : 
+                         player.streak < 0 ? `❄️${Math.abs(player.streak)}` : ""}
                       </span>
                     </div>
+                  </div>
+                  <div className="player-management-actions">
+                    <button
+                      className="edit-player-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditPlayer(player.name);
+                      }}
+                      title="Edit Player Name"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      className="change-group-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleChangeGroup(player.name);
+                      }}
+                      title="Change Group"
+                    >
+                      🔄
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removePlayerFromTournament(player.name, groupKey);
+                      }}
+                      title="Remove Player"
+                    >
+                      🗑️
+                    </button>
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
-
-        {/* Players tab panel */}
-        <div
-          className={`tab-panel ${activeTabs[groupKey] === "players" ? "active" : ""}`}
-          id={`players-panel-${groupKey}`}
-        >
-          <ul className="players">
-            {players.map((player) => (
-              <li 
-                key={player.name} 
-                className="player-card"
-                onClick={() => onPlayerClick && onPlayerClick(player.name)}
-                style={{ cursor: onPlayerClick ? 'pointer' : 'default' }}
+          
+          {/* Add Player Section - Controlled by showAddPlayer prop */}
+          {showAddPlayer && addPlayerToGroup && (
+            <div className="add-player-section">
+              <button 
+                className="add-player-btn-small"
+                onClick={handleAddPlayer}
+                title={`Add Player to Group ${groupKey}`}
               >
-                <img
-                  src={player.avatar}
-                  alt={player.name}
-                  onError={(e) => handleImageError(e, player.name)}
-                />
-                <span className="name">{player.name}</span>
-                <button
-                  className="delete-btn"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent triggering the card click
-                    deletePlayer(groupKey, player.name);
-                  }}
-                  title={t("delete_player")}
-                >
-                  🗑️
-                </button>
-              </li>
-            ))}
-          </ul>
+                ➕ Add Player
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Fixtures tab panel */}
@@ -224,6 +283,30 @@ const Group = ({
           <ul className="fixtures">
             {groupFixtures.map((fixture, index) => {
               const res = matchResult(fixture.scores);
+              
+              // Logic để tính người thắng từng set và disable set 3 nếu đã có người thắng 2 set
+              const getSetWinner = (setIndex) => {
+                const set = fixture.scores[setIndex];
+                // Chỉ tính thắng set khi CẢ HAI người chơi đều đã nhập điểm
+                if (set[0] === null || set[1] === null || set[0] === "" || set[1] === "") return 0;
+                const score1 = parseInt(set[0]) || 0;
+                const score2 = parseInt(set[1]) || 0;
+                
+                // Chỉ tính thắng set khi có người đạt ít nhất 15 điểm VÀ hơn đối thủ
+                // VÀ cả hai điểm số đều đã được nhập hoàn chỉnh (không có người đang nhập dở)
+                if (score1 >= 15 && score1 > score2) return 1;
+                if (score2 >= 15 && score2 > score1) return 2;
+                return 0;
+              };
+
+              const set1Winner = getSetWinner(0);
+              const set2Winner = getSetWinner(1);
+              
+              // Chỉ disable set 3 khi có người thắng 2 set HOÀN CHỈNH liên tục
+              // Tức là: (set1Winner === 1 && set2Winner === 1) hoặc (set1Winner === 2 && set2Winner === 2)
+              const shouldDisableSet3 = (set1Winner !== 0 && set2Winner !== 0) && 
+                                      ((set1Winner === 1 && set2Winner === 1) || (set1Winner === 2 && set2Winner === 2));
+              
               return (
                 <li key={index} className="fixture">
                   <div className="players">
@@ -236,27 +319,43 @@ const Group = ({
                     </span>
                   </div>
                   <div className="scores">
-                    {fixture.scores.map((set, setIndex) => (
-                      <div key={setIndex} className="set">
-                        <input
-                          type="number"
-                          min={0}
-                          value={set[0] ?? ""}
-                          onChange={(e) =>
-                            handleFixtureScore(groupKey, index, setIndex, 0, e.target.value)
-                          }
-                        />
-                        <span>-</span>
-                        <input
-                          type="number"
-                          min={0}
-                          value={set[1] ?? ""}
-                          onChange={(e) =>
-                            handleFixtureScore(groupKey, index, setIndex, 1, e.target.value)
-                          }
-                        />
-                      </div>
-                    ))}
+                    {fixture.scores.map((set, setIndex) => {
+                      const setWinner = getSetWinner(setIndex);
+                      const isSet3Disabled = setIndex === 2 && shouldDisableSet3;
+                      
+                      return (
+                        <div key={setIndex} className="set-group">
+                          <div className="set-label">Set {setIndex + 1}</div>
+                          <div className="set">
+                            <input
+                              type="number"
+                              min={0}
+                              max={21}
+                              value={set[0] ?? ""}
+                              onChange={(e) =>
+                                handleFixtureScore(groupKey, index, setIndex, 0, e.target.value)
+                              }
+                              className={setWinner === 1 ? "winner" : ""}
+                              disabled={isSet3Disabled}
+                              placeholder="0"
+                            />
+                            <span className="score-separator">-</span>
+                            <input
+                              type="number"
+                              min={0}
+                              max={21}
+                              value={set[1] ?? ""}
+                              onChange={(e) =>
+                                handleFixtureScore(groupKey, index, setIndex, 1, e.target.value)
+                              }
+                              className={setWinner === 2 ? "winner" : ""}
+                              disabled={isSet3Disabled}
+                              placeholder="0"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </li>
               );
@@ -264,48 +363,7 @@ const Group = ({
           </ul>
         </div>
 
-        {/* Doubles tab panel */}
-        <div
-          className={`tab-panel ${activeTabs[groupKey] === "doubles" ? "active" : ""}`}
-          id={`doubles-panel-${groupKey}`}
-        >
-          {(() => {
-            const basePlayers = groupData[groupKey] || [];
-            const pairs = computeDoublesPairs(basePlayers);
-            return (
-              <ul className="players">
-                {pairs.map((pair, i) => {
-                  const p1 = pair[0];
-                  const p2 = pair[1];
-                  return (
-                    <li key={`${p1.name}-${p2 ? p2.name : "bye"}`}>
-                      <img
-                        src={p1.avatar}
-                        alt={p1.name}
-                        onError={(e) => handleImageError(e, p1.name)}
-                      />
-                      {p2 && (
-                        <img
-                          src={p2.avatar}
-                          alt={p2.name}
-                          onError={(e) => handleImageError(e, p2.name)}
-                        />
-                      )}
-                      <span className="seed">
-                        {groupKey}
-                        {i + 1}
-                      </span>
-                      <span className="name">
-                        {p1.name}
-                        {p2 ? ` × ${p2.name}` : " (lẻ)"}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            );
-          })()}
-        </div>
+
       </section>
     );
   };

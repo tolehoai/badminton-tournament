@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="racketLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgLarge)" stroke="#4338ca" stroke-width="8"/>
+  <circle cx="256" cy="256" r="240" fill="url(#glow)"/>
+  
+  <!-- Main badminton racket -->
+  <!-- Racket head (oval) -->
+  <ellipse cx="256" cy="180" rx="80" ry="110" fill="none" stroke="url(#racketLarge)" stroke-width="12"/>
+  
+  <!-- Racket strings (detailed grid) -->
+  <!-- Vertical strings -->
+  <line x1="200" y1="100" x2="200" y2="260" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="220" y1="85" x2="220" y2="275" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="240" y1="75" x2="240" y2="285" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="256" y1="70" x2="256" y2="290" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="272" y1="75" x2="272" y2="285" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="292" y1="85" x2="292" y2="275" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="312" y1="100" x2="312" y2="260" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  
+  <!-- Horizontal strings -->
+  <line x1="190" y1="120" x2="322" y2="120" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="185" y1="150" x2="327" y2="150" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="180" y1="180" x2="332" y2="180" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="185" y1="210" x2="327" y2="210" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  <line x1="190" y1="240" x2="322" y2="240" stroke="#fbbf24" stroke-width="4" opacity="0.9"/>
+  
+  <!-- Racket handle -->
+  <rect x="240" y="290" width="32" height="120" fill="url(#racketLarge)" rx="16"/>
+  <rect x="235" y="400" width="42" height="20" fill="#92400e" rx="10"/>
+  <rect x="240" y="405" width="32" height="10" fill="#7c2d12" rx="5"/>
+  
+  <!-- Shuttlecock -->
+  <circle cx="380" cy="320" r="18" fill="#ffffff" stroke="#e5e7eb" stroke-width="4"/>
+  <path d="M 380 302 L 365 270 L 375 270 L 380 285 L 385 270 L 395 270 Z" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+  
+  <!-- Tournament elements -->
+  <!-- Trophy -->
+  <path d="M 120 350 L 140 350 L 145 340 L 135 330 L 125 330 L 115 340 Z" fill="#fbbf24"/>
+  <rect x="125" y="350" width="10" height="15" fill="#f59e0b"/>
+  <rect x="120" y="365" width="20" height="8" fill="#92400e" rx="4"/>
+  
+  <!-- Medal -->
+  <circle cx="400" cy="400" r="12" fill="#fbbf24"/>
+  <circle cx="400" cy="400" r="8" fill="#f59e0b"/>
+  <text x="400" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff">1</text>
+  
+  <!-- Stars for tournament feel -->
+  <path d="M 150 120 L 152 126 L 158 126 L 153 130 L 155 136 L 150 132 L 145 136 L 147 130 L 142 126 L 148 126 Z" fill="#fbbf24" opacity="0.8"/>
+  <path d="M 370 140 L 372 146 L 378 146 L 373 150 L 375 156 L 370 152 L 365 156 L 367 150 L 362 146 L 368 146 Z" fill="#fbbf24" opacity="0.8"/>
+  
+  <!-- Title text -->
+  <text x="256" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ffffff">BADMINTON</text>
+  <text x="256" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#e2e8f0">TOURNAMENT</text>
+</svg>

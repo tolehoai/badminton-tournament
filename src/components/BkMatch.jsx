@@ -23,37 +23,34 @@ const BkMatch = ({ id, title, labels, bkScores, onChangeScore }) => {
   const w2 = getSetWinner(1);
   const shouldDisableSet3 = w1 && w2 && w1 === w2 && w1 !== 0;
 
+  const getMatchIcon = () => {
+    if (id === "final") return "🏆";
+    if (id === "third") return "🥉";
+    if (id === "semi1" || id === "semi2") return "⚔️";
+    return "🏸";
+  };
+
   return (
-    <div
-      className="bk-card"
-      id={
-        id === "final"
-          ? "final-match-card"
-          : id === "third"
-          ? "third-place-card"
-          : id === "semi1" || id === "semi2"
-          ? "semis"
-          : undefined
-      }
-    >
-      {title && <h3>{title}</h3>}
+    <div className="bk-card">
+      {title && <h3>{getMatchIcon()} {title}</h3>}
       <div className="match" id={id}>
         <div className="teams-row">
           <div className="side">
             <strong className={`p1 ${p1IsWinner ? "winner" : ""}`}>
-              {label.p1}
+              {p1IsWinner && "🏆 "}{label.p1}
             </strong>
           </div>
           <div className="vs">vs</div>
           <div className="side">
             <strong className={`p2 ${p2IsWinner ? "winner" : ""}`}>
-              {label.p2}
+              {p2IsWinner && "🏆 "}{label.p2}
             </strong>
           </div>
         </div>
         <div className="fixture-scores">
           {[0, 1, 2].map((set) => {
             const setWinner = getSetWinner(set);
+            const isDisabled = set === 2 && shouldDisableSet3;
             return (
               <div className="set-scores" key={set}>
                 <div className="set-label">Set {set + 1}</div>
@@ -64,15 +61,16 @@ const BkMatch = ({ id, title, labels, bkScores, onChangeScore }) => {
                     min={0}
                     value={bkScores[`${id}${set + 1}1`] ?? ""}
                     onChange={(e) => onChangeScore(id, set, 0, e.target.value)}
-                    disabled={set === 2 && shouldDisableSet3}
+                    disabled={isDisabled}
                   />
+                  <span>-</span>
                   <input
                     type="number"
                     className={`bkscore ${setWinner === 2 ? "winner" : ""}`}
                     min={0}
                     value={bkScores[`${id}${set + 1}2`] ?? ""}
                     onChange={(e) => onChangeScore(id, set, 1, e.target.value)}
-                    disabled={set === 2 && shouldDisableSet3}
+                    disabled={isDisabled}
                   />
                 </div>
               </div>

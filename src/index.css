@@ -1,14 +1,97 @@
-/* Keep minimal resets; App.css holds the main styles */
+/* Lightweight, Performance-Focused CSS Reset */
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
+  
+  /* Clean, Simple Color Palette */
+  --bg-primary: #1a1d29;
+  --bg-secondary: #252936;
+  --bg-tertiary: #2d3142;
+  --text-primary: #ffffff;
+  --text-secondary: #a8b2d1;
+  --text-muted: #6c7293;
+  --accent: #4285f4;
+  --accent-hover: #3367d6;
+  --success: #34a853;
+  --warning: #fbbc04;
+  --error: #ea4335;
+  --border: #3c4043;
+  --shadow: rgba(0, 0, 0, 0.3);
+  
+  /* Simple transitions */
+  --transition: all 0.2s ease;
 }
+
 * {
   box-sizing: border-box;
 }
-html,
-body,
-#root {
+
+html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Simple scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Clean selection */
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Button reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Input reset */
+input {
+  font-family: inherit;
+}
+
+/* Remove all heavy animations and effects */
+*, *::before, *::after {
+  animation: none !important;
+  transition: var(--transition) !important;
+}
+
+/* Keep only essential hover effects */
+.hover-lift:hover {
+  transform: translateY(-1px);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
 }

@@ -5,6 +5,16 @@ export const toNum = (val) => {
   return isNaN(num) ? null : num;
 };
 
+// Fisher-Yates shuffle algorithm to randomize array order
+export const shuffleArray = (array) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 export const genFixtures = (players) => {
   if (!players || players.length < 2) return [];
   const fixtures = [];
@@ -33,8 +43,11 @@ export const matchResult = (scores) => {
     if (set[0] !== null && set[1] !== null) {
       pts1 += set[0];
       pts2 += set[1];
-      if (set[0] > set[1]) w1++;
-      else if (set[1] > set[0]) w2++;
+      // Áp dụng luật cầu lông: phải đạt ít nhất 15 điểm VÀ hơn đối thủ để thắng set
+      const score1 = parseInt(set[0]) || 0;
+      const score2 = parseInt(set[1]) || 0;
+      if (score1 >= 15 && score1 > score2) w1++;
+      else if (score2 >= 15 && score2 > score1) w2++;
     }
   });
   let winner = null;

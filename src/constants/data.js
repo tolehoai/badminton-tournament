@@ -1,6 +1,7 @@
 export const AVATAR_API = "https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=";
 
-export const INITIAL_GROUP_DATA = {
+// Initial data for Singles Tournament (4 groups x 4 players = 16 players)
+export const INITIAL_SINGLES_DATA = {
   A: [
     {
       name: "Hoài",
@@ -8,9 +9,9 @@ export const INITIAL_GROUP_DATA = {
         "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/485395314_2802255749939489_7731888474445445962_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=N77VsHaqXbAQ7kNvwH761lO&_nc_oc=Adkhh7KNSpHzQrTkHZVex7fCGqgzQlW77ZhxKmRMYxDQ_1xs-5rYyDFs9GMwKEEXdEI&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=6uLWeobMqbXYs0qQCe0OXA&oh=00_AfXKjHqiaZxaPZgbJRcrNHm2khaujPjzMO3_ZOsfXXn_KA&oe=68AA3222",
     },
     {
-      name: "Nga",
+      name: "Sơn",
       avatar:
-        "https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=NGA",
+        "https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=SON",
     },
     {
       name: "Nam",
@@ -25,10 +26,11 @@ export const INITIAL_GROUP_DATA = {
   ],
   B: [
     {
-      name: "Sơn",
+      name: "Nga",
       avatar:
-        "https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=SON",
+        "https://ui-avatars.com/api/?background=2a2f3a&color=e6eaf2&size=96&name=NGA",
     },
+    
     {
       name: "H.Anh",
       avatar:
@@ -91,30 +93,43 @@ export const INITIAL_GROUP_DATA = {
   ],
 };
 
+// Initial data for Doubles Tournament (2 groups x 8 players = 16 players)
+export const INITIAL_DOUBLES_DATA = {
+  A: [
+    "Phúc", "Long", "H.Anh", "Dương", "Đạt", "Khanh", "Tuấn Âu", "Hoàn"
+  ],
+  B: [
+    "Yun", "T.Anh", "Nga", "Nam", "Sơn", "Chính", "Hoài", "Tịnh"
+  ]
+};
+
+// Legacy export for backward compatibility
+export const INITIAL_GROUP_DATA = INITIAL_SINGLES_DATA;
+
 export const TEXT = {
-  app_title: "Badminton Tournament - 16 Players",
-  rules_title: "16 players divided into 4 groups, 4 players each",
+  app_title: "BWF Badminton Tournament - Round Robin Format",
+  rules_title: "16 players divided into 4 groups, 4 players each - Group Stage followed by Knockout Draws",
   group_stage: "Group Stage",
-  knockout_title: "Knockout Stage",
+  knockout_title: "Knockout Draws",
   semifinal: "Semifinals",
   final: "Final",
-  third_place: "Third Place",
-  podium: "Podium",
-  stats_title: "Statistics",
+  third_place: "Bronze Medal Match",
+  podium: "Medal Ceremony",
+  stats_title: "Player Statistics",
   total_matches: "Total Matches",
   total_points: "Total Points",
-  king_of_points: "King of Points",
-  longest_match: "Longest Match",
-  dominant_win: "Dominant Win",
-  champion_poly: "Champion",
-  second_poly: "Runner-up",
-  third_poly: "Third Place",
+  king_of_points: "Highest Scorer",
+  longest_match: "Longest Rally",
+  dominant_win: "Most Decisive Win",
+  champion_poly: "Gold Medalist",
+  second_poly: "Silver Medalist", 
+  third_poly: "Bronze Medalist",
   quick_settings: "Quick Settings",
   reset_to_initial: "Reset to Initial",
   clear_storage: "Clear LocalStorage",
-  shuffle_fixtures: "Shuffle Fixtures",
-  random_group_scores: "Random Group Scores",
-  random_knockout_scores: "Random Knockout Scores",
+  shuffle_fixtures: "Shuffle Match Schedule",
+  random_group_scores: "Generate Group Stage Results",
+  random_knockout_scores: "Generate Knockout Results",
   add_player: "Add Player",
   move_player: "Move Player",
   delete_player: "Delete Player",
@@ -133,4 +148,16 @@ export const TEXT = {
   losses: "Losses",
   win_rate: "Win Rate",
   close: "Close",
+  recent_matches: "Recent Matches",
+  match_history: "Match History",
+  upload_avatar: "Upload Avatar",
+  click_to_change_avatar: "Click to change avatar",
+  vs: "vs",
+  win: "Win",
+  loss: "Loss",
+  group_stage_short: "Group",
+  knockout_stage_short: "Knockout",
+  showing_recent: "Showing recent",
+  of_total: "of",
+  matches: "matches",
 };
