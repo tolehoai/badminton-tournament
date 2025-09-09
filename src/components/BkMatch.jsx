@@ -57,20 +57,28 @@ const BkMatch = ({ id, title, labels, bkScores, onChangeScore }) => {
                 <div className="input-pair">
                   <input
                     type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     className={`bkscore ${setWinner === 1 ? "winner" : ""}`}
                     min={0}
+                    max={21}
                     value={bkScores[`${id}${set + 1}1`] ?? ""}
                     onChange={(e) => onChangeScore(id, set, 0, e.target.value)}
                     disabled={isDisabled}
+                    placeholder="0"
                   />
                   <span>-</span>
                   <input
                     type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     className={`bkscore ${setWinner === 2 ? "winner" : ""}`}
                     min={0}
+                    max={21}
                     value={bkScores[`${id}${set + 1}2`] ?? ""}
                     onChange={(e) => onChangeScore(id, set, 1, e.target.value)}
                     disabled={isDisabled}
+                    placeholder="0"
                   />
                 </div>
               </div>

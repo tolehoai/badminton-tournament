@@ -329,6 +329,8 @@ const Group = ({
                           <div className="set">
                             <input
                               type="number"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
                               min={0}
                               max={21}
                               value={set[0] ?? ""}
@@ -342,6 +344,8 @@ const Group = ({
                             <span className="score-separator">-</span>
                             <input
                               type="number"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
                               min={0}
                               max={21}
                               value={set[1] ?? ""}

@@ -149,16 +149,49 @@ button, input[type="button"], input[type="submit"] {
   .btn,
   button {
     min-height: 48px !important;
-    padding: 0.8rem 1.2rem !important;
-    font-size: 0.95rem !important;
+    padding: 0.8rem 1rem !important;
+    font-size: 0.9rem !important;
     border-radius: 6px !important;
     margin: 0.25rem !important;
     touch-action: manipulation;
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
   
   .control-btn {
     flex: 1 1 auto;
-    min-width: 120px;
+    min-width: 100px;
+    max-width: 150px;
+  }
+
+  /* Fix button container spacing */
+  .button-group,
+  .control-buttons,
+  .pair-controls {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Specific fixes for player action buttons */
+  .player-actions,
+  .player-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0.3rem !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .player-actions button,
+  .player-buttons button {
+    min-width: 40px !important;
+    padding: 0.5rem 0.8rem !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap !important;
   }
 
   /* Mobile Forms and Inputs */
@@ -248,6 +281,7 @@ button, input[type="button"], input[type="submit"] {
   .tournament-table {
     font-size: 0.85rem !important;
     overflow-x: auto !important;
+    width: 100% !important;
   }
   
   .group-table th,
@@ -256,11 +290,47 @@ button, input[type="button"], input[type="submit"] {
   .tournament-table td {
     padding: 0.4rem !important;
     min-width: 60px;
+    vertical-align: middle !important;
   }
   
   .player-name-cell {
     min-width: 100px !important;
     word-break: break-word;
+  }
+
+  /* Fix standings table specifically */
+  .standings-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .standings-table td {
+    position: relative !important;
+    padding: 0.5rem 0.3rem !important;
+  }
+
+  /* Hide player action buttons on mobile for cleaner layout */
+  .standings-table .player-actions,
+  .group-table .player-actions,
+  .player-actions,
+  .edit-player-btn,
+  .change-group-btn,
+  .delete-btn {
+    display: none !important;
+  }
+
+  .standings-table .player-actions button,
+  .group-table .player-actions button,
+  .player-actions button {
+    min-width: 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    font-size: 0.65rem !important;
+    border-radius: 3px !important;
+    margin: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
   /* Mobile Bracket Trees */
@@ -327,11 +397,24 @@ button, input[type="button"], input[type="submit"] {
   }
 
   /* Mobile Score Inputs */
-  .fixture-score-input {
+  .fixture-score-input,
+  input[type="number"],
+  .bkscore {
     min-height: 44px !important;
     width: 50px !important;
     font-size: 0.9rem !important;
     padding: 0.3rem !important;
+    text-align: center !important;
+    border-radius: 4px !important;
+  }
+  
+  /* Enhanced mobile number input styling */
+  input[type="number"]:focus,
+  .bkscore:focus {
+    outline: 2px solid #667eea !important;
+    outline-offset: 1px !important;
+    border-color: #667eea !important;
+    background-color: rgba(102, 126, 234, 0.1) !important;
   }
   
   .vs-separator {
@@ -376,6 +459,80 @@ button, input[type="button"], input[type="submit"] {
     font-size: 0.85rem !important;
     padding: 0.8rem !important;
   }
+
+  /* Fix group tabs and standings specifically */
+  .group-tabs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .group-tab {
+    min-height: 44px !important;
+    padding: 0.6rem 1rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 6px !important;
+    flex: 1 1 auto !important;
+    text-align: center !important;
+  }
+
+  /* Fix group content areas */
+  .group-content {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  /* Reset player name cells padding since buttons are hidden */
+  .group-table .player-name-cell,
+  .standings-table .player-name-cell,
+  .player-cell {
+    padding-right: 0.5rem !important;
+    position: relative !important;
+    min-width: 120px !important;
+  }
+  
+  /* Ensure table cells are properly sized */
+  .group-table tr,
+  .standings-table tr {
+    position: relative !important;
+  }
+  
+  .group-table td,
+  .standings-table td {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  /* Fix any overlapping issues */
+  .group-card {
+    overflow: visible !important;
+    position: relative !important;
+  }
+
+  .group-card .card-content {
+    overflow: visible !important;
+  }
+
+  /* Specific fix for player row layout */
+  .player-row,
+  .standings-row {
+    position: relative !important;
+    display: table-row !important;
+  }
+
+  .player-info,
+  .player-stats {
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+
+  /* Allow full width text since buttons are hidden */
+  .player-name,
+  .player-details {
+    width: 100% !important;
+    word-wrap: break-word !important;
+  }
 }
 
 /* Small Mobile Devices (phones in portrait) */
@@ -408,13 +565,79 @@ button, input[type="button"], input[type="submit"] {
     padding: 0.6rem !important;
   }
   
-  .fixture-score-input {
+  .fixture-score-input,
+  input[type="number"],
+  .bkscore {
     width: 45px !important;
     font-size: 0.85rem !important;
+    min-height: 40px !important;
   }
   
   .podium-spot {
     min-height: 100px !important;
+  }
+
+  /* Extra small mobile fixes for buttons */
+  .control-btn {
+    min-width: 90px !important;
+    padding: 0.6rem 0.8rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .player-actions button,
+  .standings-table .player-actions button,
+  .group-table .player-actions button {
+    min-width: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .group-table .player-name-cell,
+  .standings-table .player-name-cell,
+  .player-cell {
+    padding-right: 0.3rem !important;
+  }
+
+  /* Ensure buttons stay hidden on small mobile */
+  .standings-table .player-actions,
+  .group-table .player-actions,
+  .player-actions,
+  .edit-player-btn,
+  .change-group-btn,
+  .delete-btn {
+    display: none !important;
+  }
+}
+
+/* Desktop - Show player buttons back */
+@media (min-width: 769px) {
+  .standings-table .player-actions,
+  .group-table .player-actions,
+  .player-actions {
+    display: flex !important;
+    position: absolute !important;
+    right: 4px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    flex-direction: row !important;
+    gap: 3px !important;
+    z-index: 20 !important;
+    background: rgba(45, 52, 64, 0.9) !important;
+    padding: 2px !important;
+    border-radius: 6px !important;
+  }
+
+  .edit-player-btn,
+  .change-group-btn,
+  .delete-btn {
+    display: inline-block !important;
+  }
+
+  .group-table .player-name-cell,
+  .standings-table .player-name-cell,
+  .player-cell {
+    padding-right: 100px !important;
   }
 }
 
